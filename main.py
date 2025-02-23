@@ -1,15 +1,15 @@
 import discord
 from discord.ext import commands
-import os
 from config import DISCORD_TOKEN
+import os
+from utils.http_server import start_http_server  # 导入刚才写的 HTTP 服务器
 
 class MyBot(commands.Bot):
     async def setup_hook(self):
-        # 加载 cogs 目录下的所有扩展
+        # 自动加载 cogs
         for filename in os.listdir("./cogs"):
             if filename.endswith(".py") and filename != "__init__.py":
                 await self.load_extension(f"cogs.{filename[:-3]}")
-        # 同步 Slash Commands 到 Discord（首次部署时可能需要一些时间更新）
         await self.tree.sync()
 
 intents = discord.Intents.default()
@@ -19,6 +19,9 @@ bot = MyBot(command_prefix="!", intents=intents)
 
 @bot.event
 async def on_ready():
-    print(f'已登录为 {bot.user} (ID: {bot.user.id})')
+    print(f"Logged in as {bot.user} (ID: {bot.user.id})")
+
+# 启动 HTTP 服务器
+start_http_server()
 
 bot.run(DISCORD_TOKEN)
