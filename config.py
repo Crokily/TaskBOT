@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-# 加载.env文件中的变量
+# Load variables from .env file
 # load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")

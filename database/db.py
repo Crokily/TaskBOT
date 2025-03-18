@@ -2,8 +2,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from config import DATABASE_URL
 
-# 创建数据库引擎
+# Create database engine
 engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 
-# 创建会话类，用来连接数据库
+# Create session class for database connections
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
