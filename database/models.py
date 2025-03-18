@@ -7,7 +7,7 @@ class Portfolio(Base):
     __tablename__ = "portfolios"
     portfolio_id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255))
-    channel_id = Column(String(50))  # Discord 的 channel_id 存成字符串
+    channel_id = Column(String(50))  # Discord channel_id stored as string
 
 class Task(Base):
     __tablename__ = "tasks"

@@ -1,11 +1,9 @@
-
-# 使用官方 Python 镜像作为基础
+# Use the official Python image as a base
 FROM python:3.12.0-slim
 
-# 设置工作目录
+# Set working directory
 WORKDIR /app
-
-# 复制应用文件到容器中
+# Copy application files to the container
 COPY . /app
 
 RUN if [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; fi

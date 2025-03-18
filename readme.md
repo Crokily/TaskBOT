@@ -2,6 +2,9 @@
 
 A simple Discord bot that provides basic task management functionality along with scheduled reminders. The bot allows users to create, update, and check tasks using slash commands and sends reminder notifications to corresponding channels with role mentions.
 
+## Collaboration Guide
+Check out the [Collaboration Guide](docs/COLLABORATION_GUIDE.md) for details on contributing to the project.
+
 ## Features
 
 - **Task Management:**  
