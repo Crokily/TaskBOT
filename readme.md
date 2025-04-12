@@ -7,25 +7,19 @@ Check out the [Collaboration Guide](docs/COLLABORATION_GUIDE.md) for details on 
 
 ## Features
 
-- **Task Management:**
-  - Create tasks with title, description, deadline, priority, and department (portfolio).
-  - Update task status using slash commands.
+- **Task Management:**  
+  - Create tasks with title, description, deadline, priority, and department (portfolio).  
+  - Update task status using slash commands.  
   - Check tasks with beautiful embed messages, grouping tasks by status with pagination and direct jump buttons.
 
-- **Scheduled Reminders:**
+- **Scheduled Reminders:**  
   - The bot automatically checks tasks and sends a reminder notification on the corresponding channel one day before a task's deadline at 9:00 AM.
   - Reminders include a role mention for the department (e.g., `@IT Portfolio`).
 
-- **Discord Event Recording:**
-  - Automatically join voice channels for scheduled Discord events.
-  - Record audio during the event's duration.
-  - Generate meeting records with metadata (date, name, portfolio).
-  - Save recordings to database for future reference.
-
-- **Technologies Used:**
-  - [discord.py v2](https://discordpy.readthedocs.io/en/stable/) (Slash Commands and UI Views)
-  - [SQLAlchemy](https://www.sqlalchemy.org/) for ORM database interactions
-  - [python-dotenv](https://pypi.org/project/python-dotenv/) for environment variable management
+- **Technologies Used:**  
+  - [discord.py v2](https://discordpy.readthedocs.io/en/stable/) (Slash Commands and UI Views)  
+  - [SQLAlchemy](https://www.sqlalchemy.org/) for ORM database interactions  
+  - [python-dotenv](https://pypi.org/project/python-dotenv/) for environment variable management  
   - PostgreSQL (Supabase) as the database backend
 
 ## Directory Structure
@@ -58,8 +52,6 @@ discord_bot_task_management/
 - **cogs/**: Contains the command implementations:
   - `tasks.py`: Handles task management commands (create, edit, check tasks).
   - `reminder.py`: Implements scheduled reminders using discord.ext.tasks.
-  - `voice.py`: Handles manual voice channel recording commands.
-  - `event_recorder.py`: Implements automatic Discord event recording functionality.
 - **utils/**: Contains helper functions such as date parsing and message formatting.
 
 ## Setup & Installation
@@ -108,13 +100,13 @@ discord_bot_task_management/
 
 ## Usage
 
-- **Slash Commands:**
+- **Slash Commands:**  
   Use the slash commands provided by the bot (e.g., `/create_task`, `/edit_task`, `/check_tasks`) to manage tasks.
 
-- **Task Notifications:**
+- **Task Notifications:**  
   Upon creating or updating tasks, the bot will send a notification in the corresponding portfolio channel and mention the department role (e.g., `@IT Portfolio`).
 
-- **Task Check Pagination:**
+- **Task Check Pagination:**  
   When checking tasks, if the result spans multiple pages, navigation buttons (Previous, Next, and jump buttons with emoji and counts) are provided for easy browsing.
 
 ## Contributing
