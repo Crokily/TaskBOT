@@ -1,5 +1,5 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Text, TIMESTAMP
+from sqlalchemy import Column, Integer, String, Text, TIMESTAMP, LargeBinary
 
 Base = declarative_base()
 
@@ -20,3 +20,14 @@ class Task(Base):
     created_at = Column(TIMESTAMP)
     updated_at = Column(TIMESTAMP)
     portfolio_id = Column(Integer)
+
+class MeetingRecord(Base):
+    __tablename__ = "meetings_records"
+    meeting_id = Column(String(255), primary_key=True, index=True)
+    meeting_date = Column(TIMESTAMP, nullable=False)
+    meeting_name = Column(String(255))
+    raw_audio_data = Column(LargeBinary, nullable=True)
+    auto_caption = Column(Text, nullable=True)
+    summary = Column(Text, nullable=True)
+    portfolio_id = Column(String(255))
+    created_at = Column(TIMESTAMP)

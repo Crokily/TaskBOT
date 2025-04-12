@@ -14,6 +14,8 @@ class MyBot(commands.Bot):
 
 intents = discord.Intents.default()
 intents.message_content = True
+intents.voice_states = True
+intents.guild_scheduled_events = True
 
 bot = MyBot(command_prefix="!", intents=intents)
 
