@@ -8,6 +8,7 @@ import asyncio
 import json
 from datetime import datetime, timedelta
 import subprocess
+import pytz
 
 # 存储活跃的录音进程
 active_recordings = {}
@@ -26,8 +27,9 @@ class EventRecorder(commands.Cog):
     @tasks.loop(minutes=1)
     async def check_scheduled_events(self):
         """每分钟检查一次是否有即将开始的Discord事件"""
-        print(f"[DEBUG] 开始检查计划事件 - {datetime.now()}")
-        now = datetime.now()
+        # 使用UTC时间进行比较，因为Discord事件时间是UTC
+        now = datetime.now(pytz.UTC)
+        print(f"[DEBUG] 开始检查计划事件 - UTC时间: {now}")
 
         for guild in self.bot.guilds:
             print(f"[DEBUG] 检查服务器: {guild.name} (ID: {guild.id})")
@@ -36,11 +38,16 @@ class EventRecorder(commands.Cog):
             print(f"[DEBUG] 找到 {len(scheduled_events)} 个计划事件")
 
             for event in scheduled_events:
-                print(f"[DEBUG] 事件: {event.name}, 状态: {event.status}, 开始时间: {event.start_time}")
+                # 注意：event.start_time和event.end_time已经是UTC时间带时区信息
+                sydney_tz = pytz.timezone('Australia/Sydney')
+                local_start_time = event.start_time.astimezone(sydney_tz)
+                print(f"[DEBUG] 事件: {event.name}, 状态: {event.status}")
+                print(f"[DEBUG] UTC开始时间: {event.start_time}, 您的本地时间(悉尼): {local_start_time}")
                 # 检查事件是否即将开始（1分钟内）
                 if event.status == discord.EventStatus.scheduled:
+                    # 两个时间都是UTC时间，可以直接比较
                     time_until_start = event.start_time - now
-                    print(f"[DEBUG] 距离事件开始还有: {time_until_start}")
+                    print(f"[DEBUG] 距离事件开始还有: {time_until_start} (秒数: {time_until_start.total_seconds()})")
 
                     # 如果事件将在1分钟内开始
                     if timedelta(0) <= time_until_start <= timedelta(minutes=1):
@@ -59,7 +66,7 @@ class EventRecorder(commands.Cog):
                     # 如果事件有结束时间
                     if event.end_time:
                         time_until_end = event.end_time - now
-                        print(f"[DEBUG] 距离事件结束还有: {time_until_end}")
+                        print(f"[DEBUG] 距离事件结束还有: {time_until_end} (秒数: {time_until_end.total_seconds()})")
                     else:
                         print(f"[DEBUG] 事件没有设置结束时间")
 
@@ -124,7 +131,7 @@ class EventRecorder(commands.Cog):
                 "ffmpeg_process": ffmpeg_process,
                 "temp_file": temp_wav_file,
                 "event": event,
-                "start_time": datetime.now()
+                "start_time": datetime.now(pytz.UTC)
             }
             print(f"[DEBUG] 录音已开始 - 事件: {event.name}")
 
@@ -208,8 +215,12 @@ class EventRecorder(commands.Cog):
         try:
             # 获取事件信息
             event_name = event.name
-            event_date = event.start_time.strftime("%Y-%m-%d")
-            print(f"[DEBUG] 事件信息 - 名称: {event_name}, 日期: {event_date}")
+            # 将UTC时间转换为悉尼时间显示
+            sydney_tz = pytz.timezone('Australia/Sydney')
+            local_start_time = event.start_time.astimezone(sydney_tz)
+            event_date = local_start_time.strftime("%Y-%m-%d")
+            print(f"[DEBUG] 事件信息 - 名称: {event_name}")
+            print(f"[DEBUG] UTC日期: {event.start_time.strftime('%Y-%m-%d')}, 您的本地日期(悉尼): {event_date}")
 
             # 尝试从事件描述中获取portfolio_id
             portfolio_id = ""
