@@ -5,7 +5,7 @@ import os
 import time
 import tempfile
 import asyncio
-from supabase import create_client
+# from supabase import create_client
 import subprocess
 
 connections = {}
@@ -25,30 +25,31 @@ class Voice(commands.Cog):
         await interaction.channel.send("Finished recording and uploaded the file.")
 
     async def upload_to_supabase(self, interaction, file_path):
-        try:
-            SUPABASE_URL = os.getenv("SUPABASE_URL")
-            SUPABASE_KEY = os.getenv("SUPABASE_KEY")
-            supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+        # try:
+        #     SUPABASE_URL = os.getenv("SUPABASE_URL")
+        #     SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+        #     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-            curr_time = time.time()
-            file_name = f"{self.meeting_name}_{curr_time}.wav"
+        #     curr_time = time.time()
+        #     file_name = f"{self.meeting_name}_{curr_time}.wav"
 
-            with open(file_path, "rb") as audio_file:
-                raw_audio_data = audio_file.read()
+        #     with open(file_path, "rb") as audio_file:
+        #         raw_audio_data = audio_file.read()
 
-            supabase.table("Meetings Records").insert({
-                "Meeting ID": f"meeting_{curr_time}",
-                "Meeting Date": time.strftime("%Y-%m-%d"),
-                "Meeting Name": self.meeting_name,
-                "Raw Audio Data": raw_audio_data,
-                "Auto Caption": "",
-                "Summary": "",
-                "Portfolio ID": self.portfolio_id
-            }).execute()
+        #     supabase.table("Meetings Records").insert({
+        #         "Meeting ID": f"meeting_{curr_time}",
+        #         "Meeting Date": time.strftime("%Y-%m-%d"),
+        #         "Meeting Name": self.meeting_name,
+        #         "Raw Audio Data": raw_audio_data,
+        #         "Auto Caption": "",
+        #         "Summary": "",
+        #         "Portfolio ID": self.portfolio_id
+        #     }).execute()
 
-            await interaction.followup.send(f"Recording uploaded directly to the 'Meetings' table as `{file_name}`.")
-        except Exception as e:
-            await interaction.followup.send(f"Failed to upload recording: {e}")
+        #     await interaction.followup.send(f"Recording uploaded directly to the 'Meetings' table as `{file_name}`.")
+        # except Exception as e:
+        #     await interaction.followup.send(f"Failed to upload recording: {e}")
+        print('test')
 
     @app_commands.command(name="record_voice", description="Start recording audio in the voice channel.")
     async def record(self, interaction: discord.Interaction, meeting_name: str, portfolio_id: str):
