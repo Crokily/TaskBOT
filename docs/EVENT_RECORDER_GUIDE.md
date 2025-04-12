@@ -49,3 +49,4 @@
 3. 如果需要指定portfolio_id，请在事件描述中添加`portfolio_id: XXX`
 4. 如果没有指定portfolio_id，机器人会尝试使用频道分类名称作为portfolio_id
 5. 录音文件和JSON会议记录将保存在项目的`recordings`目录中
+6. 时区设置可在`.env`文件中通过`TIMEZONE`变量配置，影响事件时间的显示和文件命名

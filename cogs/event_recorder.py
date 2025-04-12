@@ -9,6 +9,7 @@ import json
 from datetime import datetime, timedelta
 import subprocess
 import pytz
+from config import TIMEZONE
 
 # 存储活跃的录音进程
 active_recordings = {}
@@ -39,10 +40,10 @@ class EventRecorder(commands.Cog):
 
             for event in scheduled_events:
                 # 注意：event.start_time和event.end_time已经是UTC时间带时区信息
-                sydney_tz = pytz.timezone('Australia/Sydney')
-                local_start_time = event.start_time.astimezone(sydney_tz)
+                local_tz = pytz.timezone(TIMEZONE)
+                local_start_time = event.start_time.astimezone(local_tz)
                 print(f"[DEBUG] 事件: {event.name}, 状态: {event.status}")
-                print(f"[DEBUG] UTC开始时间: {event.start_time}, 您的本地时间(悉尼): {local_start_time}")
+                print(f"[DEBUG] UTC开始时间: {event.start_time}, 您的本地时间({TIMEZONE}): {local_start_time}")
                 # 检查事件是否即将开始（1分钟内）
                 if event.status == discord.EventStatus.scheduled:
                     # 两个时间都是UTC时间，可以直接比较
@@ -215,12 +216,12 @@ class EventRecorder(commands.Cog):
         try:
             # 获取事件信息
             event_name = event.name
-            # 将UTC时间转换为悉尼时间显示
-            sydney_tz = pytz.timezone('Australia/Sydney')
-            local_start_time = event.start_time.astimezone(sydney_tz)
+            # 将UTC时间转换为本地时间显示
+            local_tz = pytz.timezone(TIMEZONE)
+            local_start_time = event.start_time.astimezone(local_tz)
             event_date = local_start_time.strftime("%Y-%m-%d")
             print(f"[DEBUG] 事件信息 - 名称: {event_name}")
-            print(f"[DEBUG] UTC日期: {event.start_time.strftime('%Y-%m-%d')}, 您的本地日期(悉尼): {event_date}")
+            print(f"[DEBUG] UTC日期: {event.start_time.strftime('%Y-%m-%d')}, 您的本地日期({TIMEZONE}): {event_date}")
 
             # 尝试从事件描述中获取portfolio_id
             portfolio_id = ""

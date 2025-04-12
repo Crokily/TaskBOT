@@ -94,7 +94,10 @@ discord_bot_task_management/
    ```dotenv
    DATABASE_URL=postgresql://username:password@host:port/dbname
    DISCORD_TOKEN=your_discord_bot_token
+   TIMEZONE=Australia/Sydney
    ```
+
+   注意：`TIMEZONE`参数用于设置应用程序的时区，影响事件时间的显示和文件命名。您可以使用任何有效的时区标识符，如`America/New_York`、`Europe/London`、`Asia/Tokyo`等。
 
 5. **Set up your database:**
 
